@@ -1,2 +1,2 @@
 # gis-dashboard
-Open source project tempalte for GIS dashboard implementation
+Open source project template for GIS dashboard implementation
