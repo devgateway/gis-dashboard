@@ -2,15 +2,15 @@
   "name": "asdb-phase-ii",
   "version": "0.0.1",
   "dependencies": {
-    "flux": "~2.0.0",
-    "object-assign": "~1.0.0",
-    "superagent": "~0.21.0",
     "cookie": "~0.1.2",
-    "keymirror": "~0.1.0",
-    "director": "~1.2.7",
+    "flux": "~2.0.0",
     "form-serialize": "~0.4.0",
+    "keymirror": "~0.1.0",
     "node-jsx": "~0.12.4",
-    "react": "~0.12.0"
+    "object-assign": "~1.0.0",
+    "react": "~0.12.0",
+    "react-router": "^0.11.6",
+    "superagent": "~0.21.0"
   },
   "devDependencies": {
     "rimraf": "~2.2.8",
@@ -45,7 +45,7 @@
     "grunt-newer": "~0.7.0",
     "underscore.string": "~2.3.3",
     "include-all": "~0.1.6",
-    "browserify" : "~6.2.0",
+    "browserify": "~6.2.0",
     "grunt-karma": "~0.9.0",
     "karma-phantomjs-launcher": "~0.1.2",
     "karma-chai": "0.1.0",
