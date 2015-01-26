@@ -7,7 +7,9 @@ var International = React.createClass({
   render: function() {
     var countries = ['inda', 'china'].map(function(id) {
       return (
-        <li><Link to="country" params={{countryId: id}}>{id}</Link></li>
+        <li key={id}>
+          <Link to="country" params={{countryId: id}}>{id}</Link>
+        </li>
       );
     });
     return (

@@ -4,7 +4,6 @@ var React = require('react');
 var RouteHandler = require('react-router').RouteHandler;
 
 var Header = require('./header.jsx');
-var Main = require('./main.jsx');
 var Footer = require('./footer.jsx');
 
 module.exports = React.createClass({

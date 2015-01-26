@@ -1,5 +1,10 @@
 'use strict';
 
+
+/// DEAD -- react-router handles page changes for us
+/// left as an example of a store (please delete once there is a real store)
+
+
 var Store = require('./default');
 var Dispatcher = require('../dispatchers/default');
 var pageConstants = require('../constants/page');
