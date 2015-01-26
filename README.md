@@ -1,4 +1,3 @@
-# Asdb-Phase-Ii readme
+# gis-dashboard
 
-This is an example readme file.
-Describe your site/app here.
+Open source project template for GIS dashboard implementation
