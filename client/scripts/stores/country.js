@@ -10,6 +10,7 @@ var ActionTypes = Constants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
 
+var _isLoading = false;
 var _currentId = null;
 var _countries = {};
 
@@ -51,6 +52,10 @@ var CountryStore = assign({}, EventEmitter.prototype, {
 
   getAll: function() {
     return _countries;
+  },
+
+  isLoading: function() {
+    return _isLoading;
   }
 
 });
@@ -60,13 +65,23 @@ CountryStore.dispatchToken = Dispatcher.register(function(payload) {
   var action = payload.action;
 
   switch (action.type) {
-    case ActionTypes.CLICK_COUNTRY:
+    // case ActionTypes.CLICK_COUNTRY:
+    //   CountryStore.emitChange();
+    //   break;
+
+    case ActionTypes.LOAD_COUNTRIES:
+      _isLoading = true;
       CountryStore.emitChange();
       break;
 
     case ActionTypes.LOAD_COUNTRIES_SUCCESS:
+      _isLoading = false;
       _addCountries(action.data);
       CountryStore.emitChange();
+      break;
+
+    case ActionTypes.LOAD_COUNTRIES_FAIL:
+      _isLoading = false;
       break;
 
     default:

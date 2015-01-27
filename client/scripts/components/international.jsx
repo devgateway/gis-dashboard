@@ -26,25 +26,30 @@ var International = React.createClass({
   },
 
   render: function() {
-    var country;
-    var countries = Object.keys(this.state.countries).map(function(id) {
-      country = this.state.countries[id];
-      return (
-        <li key={id}>
-          <Link to="country" params={{countryId: id}}>{country.name}</Link>
-        </li>
-      );
-    }, this);
+    var countryList;
+    if (CountryStore.isLoading()) {
+      countryList = <li>Loading countries...</li>;
+    } else {
+      var country;
+      countryList = Object.keys(this.state.countries).map(function(id) {
+        country = this.state.countries[id];
+        return (
+          <li key={id}>
+            <Link to="country" params={{countryId: id}}>{country.name}</Link>
+          </li>
+        );
+      }, this);
 
-    if (!countries.length) {
-      countries = <li>loading countries...</li>;
+      if (countryList.length === 0) {
+        countryList = <li>No Countries Found</li>;
+      }
     }
 
     return (
       <div>
         <h3>International view</h3>
         <ul>
-          {countries}
+          {countryList}
         </ul>
       </div>
     );
