@@ -11,7 +11,7 @@ module.exports = React.createClass({
     return (
       <div className="asdb-ii-app">
         <Header/>
-        <RouteHandler/>
+        <RouteHandler {...this.props} />
         <Footer/>
       </div>
     );
