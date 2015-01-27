@@ -1,93 +1,50 @@
 'use strict';
 
-var Dispatcher = require('../dispatchers/default');
-var Constants = require('../constants/app');
-var EventEmitter = require('events').EventEmitter;
-var assign = require('object-assign');
+var Reflux = require('reflux');
+var countryActions = require('../actions/country');
 
 
-var ActionTypes = Constants.ActionTypes;
-var CHANGE_EVENT = 'change';
-
-
+var _countries = null;
 var _isLoading = false;
-var _currentId = null;
-var _countries = {};
 
 
 function _convertRawCountry(rawCountry) {
-  // this funciton could be moved to ../utils/countryUtils
+  // this function could be moved to ../utils/countryUtils
   return rawCountry;  // pass-through for now, we should do validation here
 }
 
 
-function _addCountries(rawCountries) {
-  rawCountries.forEach(function(country) {
-    if (!_countries[country.id]) {
-      _countries[country.id] = _convertRawCountry(country);
-    }
-  });
-}
+var countryStore = Reflux.createStore({
 
+  listenables: countryActions,
 
-var CountryStore = assign({}, EventEmitter.prototype, {
-
-  // eventemitter boilerplate (move to mixin?)
-  emitChange: function() {
-    this.emit(CHANGE_EVENT);
+  onCountryList: function() {
+    _countries = [];
+    this.update();
   },
 
-  addChangeListener: function(callback) {
-    this.on(CHANGE_EVENT, callback);
-  },
-
-  removeChangeListener: function(callback) {
-    this.removeChangeListener(CHANGE_EVENT, callback);
-  },
-
-  // real stuff
-  get: function(id) {
-    return _countries[id];
-  },
-
-  getAll: function() {
-    return _countries;
+  onCountryListCompleted: function(data) {
+    _isLoading = false;
+    _countries = _convertRawCountry(data);
+    this.update();
   },
 
   isLoading: function() {
     return _isLoading;
-  }
+  },
 
-});
-
-
-CountryStore.dispatchToken = Dispatcher.register(function(payload) {
-  var action = payload.action;
-
-  switch (action.type) {
-    // case ActionTypes.CLICK_COUNTRY:
-    //   CountryStore.emitChange();
-    //   break;
-
-    case ActionTypes.LOAD_COUNTRIES:
+  update: function() { this.trigger(this.getState()); },
+  getState: function() { return {countries: _countries}; },
+  getInitialState: function() {
+    if (_countries === null && !_isLoading) {
+      countryActions.countryList();
+      _countries = [];
       _isLoading = true;
-      CountryStore.emitChange();
-      break;
-
-    case ActionTypes.LOAD_COUNTRIES_SUCCESS:
-      _isLoading = false;
-      _addCountries(action.data);
-      CountryStore.emitChange();
-      break;
-
-    case ActionTypes.LOAD_COUNTRIES_FAIL:
-      _isLoading = false;
-      break;
-
-    default:
-      // do nothing
+    }
+    return this.getState();
   }
+
 });
 
 
-module.exports = CountryStore;
+module.exports = countryStore;

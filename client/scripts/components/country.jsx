@@ -2,9 +2,15 @@
 
 var React = require('react');
 var Link = require('react-router').Link;
+var Reflux = require('reflux');
+var CountryStore = require('../stores/country');
 
 
 module.exports = React.createClass({
+
+  componentWillReceiveProps: function (nextProps) {
+      console.log('new props', nextProps);
+  },
 
   render: function() {
     console.log('p', this.props);

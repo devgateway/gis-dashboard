@@ -2,47 +2,27 @@
 
 var React = require('react');
 var Link = require('react-router').Link;
-var CountryStore = require('../stores/country');
+var Reflux = require('reflux');
+var countryStore = require('../stores/country');
+var countryActions = require('../actions/country');
 
 
 var International = React.createClass({
-
-  updateState: function() {
-    this.setState(CountryStore.getAll());
-  },
-
-  getInitialState: function() {
-    return {
-      countries: CountryStore.getAll()
-    };
-  },
-
-  componentDidMount: function() {
-    CountryStore.on('change', this.updateState);
-  },
-
-  componentWillUnmount: function () {
-    // CountryStore.removeListener(this.updateState);
-  },
+  mixins: [Reflux.connect(countryStore)],
 
   render: function() {
-    var countryList;
-    if (CountryStore.isLoading()) {
-      countryList = <li>Loading countries...</li>;
-    } else {
-      var country;
-      countryList = Object.keys(this.state.countries).map(function(id) {
-        country = this.state.countries[id];
-        return (
-          <li key={id}>
-            <Link to="country" params={{countryId: id}}>{country.name}</Link>
-          </li>
-        );
-      }, this);
+    var country;
+    var countryList = Object.keys(this.state.countries).map(function(id) {
+      country = this.state.countries[id];
+      return (
+        <li key={id}>
+          <Link to="country" params={{countryId: id}}>{country.name}</Link>
+        </li>
+      );
+    }, this);
 
-      if (countryList.length === 0) {
-        countryList = <li>No Countries Found</li>;
-      }
+    if (countryStore.isLoading()) {
+      countryList = <li><em>Loading countries...</em></li>
     }
 
     return (
