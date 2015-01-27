@@ -3,28 +3,59 @@
 var React = require('react');
 var Link = require('react-router').Link;
 var Reflux = require('reflux');
-var CountryStore = require('../stores/country');
+var countryStore = require('../stores/country');
+var countryActions = require('../actions/country');
 
 
 module.exports = React.createClass({
+  mixins: [Reflux.listenTo(countryStore, 'onUpdateCountries')],
 
-  componentWillReceiveProps: function (nextProps) {
-      console.log('new props', nextProps);
+  componentWillMount: function () {
+    countryActions.country(this.props.params.countryId);
+  },
+
+  componentWillReceiveProps: function(nextProps) {
+    countryActions.country(nextProps.params.countryId);
+  },
+
+  getInitialState: function() {
+    return this.pickThisCountry(countryStore.getInitialState());
+  },
+
+  pickThisCountry: function(fromStore) {
+    var thisCountry = null;
+    fromStore.countries.forEach(function(country) {
+      if (''+country.id === this.props.params.countryId) {
+        thisCountry = country;
+      }
+    }, this);
+    return thisCountry;
+  },
+
+  onUpdateCountries: function(newCountryList) {
+    this.setState(this.pickThisCountry(newCountryList));
   },
 
   render: function() {
-    console.log('p', this.props);
-    var thisCountryId = this.props.countryId;
-    var projectLinks = [ 1234, 1235, 1236, 1237 ].map(function(id) {
+    if (this.state === null) {
+      return <div>Loading...</div>
+    }
+
+    var projectLinks = this.state.projects.map(function(project) {
       return (
-        <li key={id}>
-          <Link to="project" params={{projectId: id}}>Project {id}</Link>
+        <li key={project.id}>
+          <Link to="project" params={{projectId: project.id}}>{project.name}</Link>
         </li>
       );
     });
+
+    if (!this.state.loaded) {
+      projectLinks = <li><em>Loading...</em></li>
+    }
+
     return (
       <div>
-        <h3>Country view for {this.props.countryId}</h3>
+        <h3>Country view for {this.state.name}</h3>
         <Link to="main" className="btn btn-link">« Back to international view</Link>
         <h4>Projects in this country:</h4>
         <ul>

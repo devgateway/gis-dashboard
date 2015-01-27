@@ -1,0 +1,18 @@
+{
+  "id": 0,
+  "name": "China",
+  "projects": [
+    {
+      "id": 0,
+      "name": "Rural Infrastructure"
+    },
+    {
+      "id": 1,
+      "name": "Water and Sanitation"
+    },
+    {
+      "id": 2,
+      "name": "Education Initiatives"
+    }
+  ]
+}

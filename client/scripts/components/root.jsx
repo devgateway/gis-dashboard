@@ -13,7 +13,7 @@ module.exports = React.createClass({
         </header>
 
         {/* defer to the child route handler */}
-        <RouteHandler {...this.props} />
+        <RouteHandler {...this.props} /* <- sends props as attributes to child handler */ />
 
         <footer>
           <h4>footer</h4>

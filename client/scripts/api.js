@@ -3,7 +3,13 @@
 var request = require('reqwest');
 
 module.exports = {
-  getCountries: function() {
-    return request({ url: 'mock-json/countries.json'});
+
+  getAllCountries: function() {
+    return request({ url: 'mock-json/countries.json' });
+  },
+
+  getCountry: function(countryId) {
+    return request({ url: 'mock-json/countries/' + countryId + '.json' });
   }
+
 };

@@ -1,0 +1,18 @@
+{
+  "id": 1,
+  "name": "India",
+  "projects": [
+    {
+      "id": 3,
+      "name": "Government Transparency"
+    },
+    {
+      "id": 4,
+      "name": "Flood Relief"
+    },
+    {
+      "id": 5,
+      "name": "Micro-Loans"
+    }
+  ]
+}

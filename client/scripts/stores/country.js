@@ -8,9 +8,14 @@ var _countries = null;
 var _isLoading = false;
 
 
-function _convertRawCountry(rawCountry) {
+function _convertRawCountry(rawCountry, loaded) {
   // this function could be moved to ../utils/countryUtils
-  return rawCountry;  // pass-through for now, we should do validation here
+  return {
+    id: rawCountry.id,
+    loaded: loaded || false,
+    name: rawCountry.name,
+    projects: rawCountry.projects || []
+  };
 }
 
 
@@ -18,14 +23,14 @@ var countryStore = Reflux.createStore({
 
   listenables: countryActions,
 
-  onCountryList: function() {
-    _countries = [];
+  onCountryListCompleted: function(data) {
+    _isLoading = false;
+    _countries = data.map(_convertRawCountry);
     this.update();
   },
 
-  onCountryListCompleted: function(data) {
-    _isLoading = false;
-    _countries = _convertRawCountry(data);
+  onCountryCompleted: function(data) {
+    _countries[data.id] = _convertRawCountry(data, true);
     this.update();
   },
 
@@ -34,7 +39,9 @@ var countryStore = Reflux.createStore({
   },
 
   update: function() { this.trigger(this.getState()); },
+
   getState: function() { return {countries: _countries}; },
+
   getInitialState: function() {
     if (_countries === null && !_isLoading) {
       countryActions.countryList();
