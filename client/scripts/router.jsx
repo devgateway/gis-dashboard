@@ -6,14 +6,14 @@ var Router = require('react-router'),
     DefaultRoute = Router.DefaultRoute;
 
 
-var App = require('./components/app.jsx');
+var Root = require('./components/root.jsx');
 var Country = require('./components/country.jsx');
 var Project = require('./components/project.jsx');
 var International = require('./components/international.jsx');
 
 
 var routes = (
-  <Route name="main" path="/" handler={App}>
+  <Route name="main" path="/" handler={Root}>
     <Route name="country" path="country/:countryId" handler={Country} />
     <Route name="project" path="project/:projectId" handler={Project} />
     <DefaultRoute handler={International} />
@@ -27,15 +27,3 @@ var router = Router.create({
 });
 
 module.exports = router;
-
-
-
-
-
-'use strict';
-
-
-
-
-
-

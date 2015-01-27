@@ -3,16 +3,21 @@
 var React = require('react');
 var RouteHandler = require('react-router').RouteHandler;
 
-var Header = require('./header.jsx');
-var Footer = require('./footer.jsx');
 
 module.exports = React.createClass({
   render: function() {
     return (
       <div className="asdb-ii-app">
-        <Header/>
+        <header>
+          <h1>header</h1>
+        </header>
+
+        {/* defer to the child route handler */}
         <RouteHandler {...this.props} />
-        <Footer/>
+
+        <footer>
+          <h4>footer</h4>
+        </footer>
       </div>
     );
   }
