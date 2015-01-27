@@ -19,10 +19,10 @@ module.exports = React.createClass({
   },
 
   getInitialState: function() {
-    return this.pickThisCountry(countryStore.getInitialState());
+    return this.findThisCountry(countryStore.getInitialState());
   },
 
-  pickThisCountry: function(fromStore) {
+  findThisCountry: function(fromStore) {
     var thisCountry = null;
     fromStore.countries.forEach(function(country) {
       if (''+country.id === this.props.params.countryId) {
@@ -33,7 +33,7 @@ module.exports = React.createClass({
   },
 
   onUpdateCountries: function(newCountryList) {
-    this.setState(this.pickThisCountry(newCountryList));
+    this.setState(this.findThisCountry(newCountryList));
   },
 
   render: function() {
@@ -44,10 +44,11 @@ module.exports = React.createClass({
     var projectLinks = this.state.projects.map(function(project) {
       return (
         <li key={project.id}>
-          <Link to="project" params={{projectId: project.id}}>{project.name}</Link>
+          <Link to="project" params={{projectId: project.id}}
+            query={{fromCountry: this.props.params.countryId}}>{project.name}</Link>
         </li>
       );
-    });
+    }, this);
 
     if (!this.state.loaded) {
       projectLinks = <li><em>Loading...</em></li>

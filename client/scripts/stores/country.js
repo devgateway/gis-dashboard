@@ -4,12 +4,12 @@ var Reflux = require('reflux');
 var countryActions = require('../actions/country');
 
 
-var _countries = null;
+var _countries = [];
 var _isLoading = false;
 
 
 function _convertRawCountry(rawCountry, loaded) {
-  // this function could be moved to ../utils/countryUtils
+  // maybe this function could be moved to ../utils/countryUtils or something
   return {
     id: rawCountry.id,
     loaded: loaded || false,
@@ -23,14 +23,23 @@ var countryStore = Reflux.createStore({
 
   listenables: countryActions,
 
+  onCountryList: function() { _isLoading = true; },
+
+  onCountryListFailed: function() { _isLoading = false; },
+
   onCountryListCompleted: function(data) {
-    _isLoading = false;
     _countries = data.map(_convertRawCountry);
+    _isLoading = false;
     this.update();
   },
 
+  onCountry: function() { _isLoading = true; },
+
+  onCountryFailed: function() { _isLoading = false; },
+
   onCountryCompleted: function(data) {
     _countries[data.id] = _convertRawCountry(data, true);
+    _isLoading = false;
     this.update();
   },
 
@@ -43,10 +52,8 @@ var countryStore = Reflux.createStore({
   getState: function() { return {countries: _countries}; },
 
   getInitialState: function() {
-    if (_countries === null && !_isLoading) {
+    if (_countries.length === 0 && !_isLoading) {
       countryActions.countryList();
-      _countries = [];
-      _isLoading = true;
     }
     return this.getState();
   }
