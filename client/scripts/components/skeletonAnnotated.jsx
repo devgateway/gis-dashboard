@@ -5,7 +5,14 @@ var Router = require('react-router');
 var Reflux=require('reflux');
 var Link = Router.Link;
 
+var Store=require('../stores/skeletonAnnotated.js')
+
+
 module.exports  = React.createClass({
+
+	mixins: [Reflux.connect(Store,"storeStatus")],
+
+	//  mixins: [Reflux.listenTo(Store,"onStatusChange")],
 
 	/*he displayName string is used in debugging messages. */
 	displayName :"Map Component",

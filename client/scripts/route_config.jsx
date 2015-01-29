@@ -9,16 +9,14 @@ var RootComponent=require('./components/root.jsx')
 var MapComponent=require('./components/map.jsx')
 var AboutComponent=require('./components/about.jsx')
 
-var AnnotatedComponent=require('./components/annotatedComponent.jsx')
 
 
 
 module.exports = (
+  
   <Route name="main" path="/" handler={RootComponent}>
     <Route name="map" path="map" handler={MapComponent} />
     <Route name="about" path="about" handler={AboutComponent} />
-    
-
-    <DefaultRoute handler={AnnotatedComponent} />
+    <DefaultRoute handler={MapComponent} />
   </Route>
 );
