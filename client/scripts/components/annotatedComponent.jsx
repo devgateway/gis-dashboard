@@ -2,6 +2,7 @@
 /*http://facebook.github.io/react/docs/component-specs.html*/
 var React = require('react');
 var Router = require('react-router');
+var Reflux=require('reflux');
 var Link = Router.Link;
 
 module.exports  = React.createClass({
@@ -17,7 +18,8 @@ module.exports  = React.createClass({
 	},
 
 	/*Use this to extend from another componnet*/
-	mixins: [{}],
+	//mixins: [{}],
+ 	//mixins: [Reflux.listenTo(userStore, 'resetForm')],
 
 	/*Invoked once before the component is mounted. The return value will be used as the initial value of this.state.*/
 	getInitialState:function(){
