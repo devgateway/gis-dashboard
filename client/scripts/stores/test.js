@@ -10,7 +10,6 @@ module.exports=Reflux.createStore({
 
     // Initial setup
     init: function() {
-    debugger;
       this.listenTo(FilterActions.loadCountries, this.loadCountries);
       this.listenTo(FilterActions.loadCountries.completed, this.countriesOncompleted);
        this.state = {countryList:[]};
@@ -20,13 +19,11 @@ module.exports=Reflux.createStore({
     
 
     loadCountries: function() {
-        debugger;
         assign(this.state, {countryList: ['Argentina','Chiile']});
         FilterActions.loadCountries.completed;
     },
 
     countriesOncompleted:function(){
-        debugger;
       this.output();  
     },
 

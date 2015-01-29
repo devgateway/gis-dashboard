@@ -16,7 +16,6 @@ module.exports  = React.createClass({
 
 	
 	componentDidMount: function() {
-	console.log('componentDidMount');
 	},
 
 	componentWillMount :function(){
@@ -38,7 +37,6 @@ module.exports  = React.createClass({
     },
 
 	render: function() {
-		debugger;
 		var countries=this.state.countries;
 		return(
 			<div>
