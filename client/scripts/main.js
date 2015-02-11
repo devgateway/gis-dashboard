@@ -12,5 +12,6 @@ var router = Router.create({
 
 
 router.run(function(Handler, state) {
+	
   React.render(React.createElement(Handler, state), document.getElementById('app-wrapper'));
 });

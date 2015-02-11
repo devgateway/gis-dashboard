@@ -5,22 +5,28 @@ var Router = require('react-router');
 var Reflux = require('reflux');
 var Link = Router.Link;
 
-var FilterActions = require('../actions/filterActions.js');
+var FilterActions = require('../actions/FilterActions.js');
+var FilterAPIUtils = require('../utils/FilterAPIUtils.js');
 
-var TestStore=require('../stores/test.js')
+var TestStore=require('../stores/FilterStore.js')
+
+function getStateFromStores() {
+  return {
+    departaments: TestStore.getAllDepartaments(),
+  };
+}
+
 
 module.exports  = React.createClass({
 
-	displayName :"",
-	mixins: [Reflux.listenTo(TestStore,"countries")],
-
+	displayName :"",	
 	
 	componentDidMount: function() {
-	console.log('componentDidMount');
+		TestStore.addChangeListener(this._onChange);
 	},
 
 	componentWillMount :function(){
-		FilterActions.loadCountries();
+		FilterAPIUtils.getAllDepartaments();
 	},
 
 	componentWillUnmount: function() {
@@ -31,19 +37,29 @@ module.exports  = React.createClass({
 		
 	},
 
-
-
     getInitialState: function() {
-       return {countries:[]};
+       return getStateFromStores();
+    },
+
+	_onChange: function() {
+       this.setState(getStateFromStores());
     },
 
 	render: function() {
 		debugger;
-		var countries=this.state.countries;
+		var deps = [];
+		if (this.state.departaments.length && this.state.departaments.length > 0){
+			deps = this.state.departaments;
+		}
 		return(
 			<div>
-			{
-				countries.map(function(item){ return (<span>{item.name}</span>) })
+				{
+					deps.map(function(item){ 
+						debugger;
+						//return (<span>{item.name}</span>);
+						//return React.createElement("span", null, item.name)
+						return <span key={item.idDepto}>{item.Department}</span>;
+					})
 				}
         	</div>
 			);

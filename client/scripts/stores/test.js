@@ -10,7 +10,7 @@ module.exports=Reflux.createStore({
 
     // Initial setup
     init: function() {
-    debugger;
+      debugger;
       this.listenTo(FilterActions.loadCountries, this.loadCountries);
       this.listenTo(FilterActions.loadCountries.completed, this.countriesOncompleted);
        this.state = {countryList:[]};
