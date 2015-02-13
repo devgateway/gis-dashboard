@@ -13,7 +13,9 @@ function getStateFromStores() {
     departaments: FilterStore.getAll("departaments"),
     departamentsSelected: FilterStore.getAllSelected("departaments"),
     municipalities: FilterStore.getAll("municipalities"),
-    municipalitiesSelected: FilterStore.getAllSelected("municipalities")
+    municipalitiesSelected: FilterStore.getAllSelected("municipalities"),
+    developmentObjectives: FilterStore.getAll("developmentObjectives"),
+    developmentObjectivesSelected: FilterStore.getAllSelected("developmentObjectives")
   };
 }
 
@@ -25,7 +27,7 @@ var FilterGroup = React.createClass({
             // filter the collection
             var pattern = new RegExp(keyword, 'i');
             this.state[this.props.filterType].map(function (item) {
-                if (!pattern.test(item.Municipalitie)){
+                if (!pattern.test(item.name)){
                     item.hide = true;
                 }
             });

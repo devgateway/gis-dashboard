@@ -14,7 +14,9 @@ function getStateFromStores() {
     departaments: FilterStore.getAll("departaments"),
     departamentsSelected: FilterStore.getAllSelected("departaments"),
     municipalities: FilterStore.getAll("municipalities"),
-    municipalitiesSelected: FilterStore.getAllSelected("municipalities")
+    municipalitiesSelected: FilterStore.getAllSelected("municipalities"),
+    developmentObjectives: FilterStore.getAll("developmentObjectives"),
+    developmentObjectivesSelected: FilterStore.getAllSelected("developmentObjectives")
   };
 }
 
@@ -30,8 +32,9 @@ var Filter  = React.createClass({
     },
     
 	componentWillMount :function(){        
-        FilterAPIUtils.getAllDepartaments();
-        FilterAPIUtils.getAllMunicipalities();
+        FilterAPIUtils.getAllDepartamentsFromServer();
+        FilterAPIUtils.getAllMunicipalitiesFromServer();
+        FilterAPIUtils.getAllDevelopmentObjectiveFromServer();
         this.setState(getStateFromStores());
     },
 
@@ -50,7 +53,10 @@ var Filter  = React.createClass({
               </a></li>
               <li role="presentation" className=""><a href="#municipalities" role="tab" id="muns-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">
                 Municipalities ({this.state.municipalitiesSelected.length} / {this.state.municipalities.length})
-              </a></li>      
+              </a></li> 
+              <li role="presentation" className=""><a href="#developmentObjectives" role="tab" id="dos-tab" data-toggle="tab" aria-controls="profile" aria-expanded="false">
+                Development Objectives ({this.state.developmentObjectivesSelected.length} / {this.state.developmentObjectives.length})
+              </a></li>     
             </ul>
             <div id="myTabContent" className="tab-content">
               <div role="tabpanel" className="tab-pane fade active in" id="departaments" aria-labelledby="deps-tab">
@@ -58,6 +64,9 @@ var Filter  = React.createClass({
               </div>
               <div role="tabpanel" className="tab-pane fade" id="municipalities" aria-labelledby="muns-tab">
                 <FilterGroup filterType="municipalities"/>
+              </div>
+              <div role="tabpanel" className="tab-pane fade" id="developmentObjectives" aria-labelledby="dos-tab">
+                <FilterGroup filterType="developmentObjectives"/>
               </div>
             </div>
         </div>

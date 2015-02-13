@@ -4,21 +4,15 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 
 module.exports = {
 
-  	loadAllDepartaments: function(departaments) {
+  	loadFilterListFromServer: function(filterList, filterType) {
 	    AppDispatcher.handleServerAction({
-	      type: 'RECEIVE_ALL_DEPARTAMENTS',
-	      departaments: departaments
+	      type: 'RECEIVE_FILTER_LIST_FROM_SERVER',
+	      filterType: filterType,
+	      filterList: filterList
 	    });
   	},
 
-  	loadAllMunicipalities: function(municipalities) {
-    	AppDispatcher.handleServerAction({
-	      type: 'RECEIVE_ALL_MUNICIPALITIES',
-	      municipalities: municipalities
-	    });
-  	},
-
-	changeFilterItemSelection: function(filterType, id, value) {
+  	changeFilterItemSelection: function(filterType, id, value) {
 	    AppDispatcher.handleServerAction({
 	      type: 'CHANGE_FILTER_ITEM_SELECTION',
 	      filterType: filterType,

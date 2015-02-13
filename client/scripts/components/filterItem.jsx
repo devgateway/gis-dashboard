@@ -45,8 +45,8 @@ var FilterItem = React.createClass({
                 type="checkbox"
                 checked={item.selected}
                 onChange={this._onItemChanged}
-                value={item.idMunicipalitie} />
-                {item.Municipalitie}
+                value={item.id} />
+                {item.name}
             </label>
                         
         );

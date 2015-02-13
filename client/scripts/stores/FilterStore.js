@@ -5,9 +5,7 @@ var assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
 
-var _departaments = [];
-var _municipalities = [];
-var _departamentSelected = -1;
+var filters = {};
 
 var FilterStore = assign({}, EventEmitter.prototype, {
 
@@ -21,60 +19,34 @@ var FilterStore = assign({}, EventEmitter.prototype, {
   addChangeListener: function(callback) {
     this.on(CHANGE_EVENT, callback);
   },
-
+  
   getAll: function(filterType) {
-    var ret;
-    switch(filterType) {
-      case 'departaments':
-        ret = _departaments;
-        break;
-      case 'municipalities':
-        ret = _municipalities;
-        break;
-      default:
-        // do nothing
-    }
-    return ret;
+    if (filters[filterType]) {
+      return filters[filterType];
+    } else {
+      return [];
+    }    
   },
 
   getItem: function(filterType, id) {
-    var ret;
-    switch(filterType) {
-      case 'departaments':
-        ret = _departaments.filter(function (data) {
+    if (filters[filterType]) {
+      return filters[filterType].filter(function (data) {
             return (data.id === id);
           });
-        break;
-      case 'municipalities':
-        ret = _municipalities.filter(function (data) {
-            return (data.id === id);
-          });
-        break;
-      default:
-        // do nothing
+    } else {
+      return [];
     }
-    return ret;
   },
 
   getAllSelected: function(filterType) {
-    var ret;
-    switch(filterType) {
-      case 'departaments':
-        ret = _departaments.filter(function (data) {
+    if (filters[filterType]) {
+      return filters[filterType].filter(function (data) {
             return (data.selected);
           });
-        break;
-      case 'municipalities':
-        ret = _municipalities.filter(function (data) {
-            return (data.selected);
-          });
-        break;
-      default:
-        // do nothing
+    } else {
+      return [];
     }
-    return ret;
   }
-
 });
 
 
@@ -83,37 +55,19 @@ FilterStore.dispatchToken = AppDispatcher.register(function(payload) {
 
   switch(action.type) {
 
-    case 'RECEIVE_ALL_DEPARTAMENTS':
-      _departaments = action.departaments;
-      FilterStore.emitChange();
-      break;
-
-    case 'RECEIVE_ALL_MUNICIPALITIES':
-      _municipalities = action.municipalities;
+    case 'RECEIVE_FILTER_LIST_FROM_SERVER':
+      filters[action.filterType] = action.filterList;
       FilterStore.emitChange();
       break;
 
     case 'CHANGE_FILTER_ITEM_SELECTION':
-      switch(action.filterType) {
-        case 'departaments':
-          _departaments.map(function(item) {
-              if (item.id == action.id) {
-                item.selected = action.value;
-                FilterStore.emitChange();
-              } 
-          });
-          break;
-        case 'municipalities':
-          _municipalities.map(function(item) {
-              if (item.idMunicipalitie == action.id) {
-                item.selected = action.value;
-                FilterStore.emitChange();
-              } 
-            });
-          break;
-        default:
-        // do nothing
-      }
+      filters[action.filterType].map(function(item) {
+        if (item.id == action.id) {
+          item.selected = action.value;
+          FilterStore.emitChange();
+        } 
+      });
+      
       break;
 
     default:
